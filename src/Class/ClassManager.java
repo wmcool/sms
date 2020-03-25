@@ -81,7 +81,7 @@ public class ClassManager extends JFrame {
         jLabel3.setFont(new java.awt.Font("Dialog", Font.PLAIN, 16));
         jLabel3.setText("请选择学院：");
         jLabel4.setFont(new java.awt.Font("Dialog", Font.PLAIN, 16));
-        jLabel4.setText("请输入班级：");
+        jLabel4.setText("请输入班号：");
         jComboBox1.setFont(new java.awt.Font("Dialog", Font.PLAIN, 16));
         jComboBox2.setFont(new java.awt.Font("Dialog", Font.PLAIN, 16));
         jComboBox2.setEditable(false);
@@ -98,7 +98,7 @@ public class ClassManager extends JFrame {
         jRadioButton2.addItemListener(new ClassManager_jRadioButton2_itemAdapter(this));
         jRadioButton2.addActionListener(new ClassManager_jRadioButton2_actionAdapter(this));
         jRadioButton3.setFont(new java.awt.Font("Dialog", Font.PLAIN, 16));
-        jRadioButton3.setText("按名称查询：");
+        jRadioButton3.setText("按班号查询：");
         jRadioButton3.addItemListener(new ClassManager_jRadioButton3_itemAdapter(this));
         jRadioButton3.addActionListener(new ClassManager_jRadioButton3_actionAdapter(this));
         jLabel5.setFont(new java.awt.Font("Dialog", Font.PLAIN, 16));
@@ -263,10 +263,10 @@ public class ClassManager extends JFrame {
 
     public void jButton4_actionPerformed(ActionEvent e) {
         int row = jTable1.getSelectedRow();
-        if (intRow == -1) {
+        if (row == -1) {
             jOptionPane1.showMessageDialog(this, "请选择要修改的班级！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
         }
-        String now = model.getValueAt(intRow, 0).toString().trim();
+        String now = model.getValueAt(row, 0).toString().trim();
         ClassChange siadd = new ClassChange(now);
         siadd.setLocation(400, 200);
         siadd.setSize(465, 310);
@@ -278,13 +278,12 @@ public class ClassManager extends JFrame {
 
     public void jButton5_actionPerformed(ActionEvent e){
         int row = jTable1.getSelectedRow();
-        if(intRow == -1){
+        if(row == -1){
             jOptionPane1.showMessageDialog(this, "请选择要删除的班级！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
         }
-        String now = model.getValueAt(intRow, 0).toString().trim();
-        DBConnection.getDBConnection().Update("delete from class where classId=" + Integer.valueOf(now) + "';");
+        String now = model.getValueAt(row, 0).toString().trim();
+        DBConnection.getDBConnection().Update("delete from class where classId=" + Integer.valueOf(now) + ";");
         UpdateRecord();
-
     }
 
     // 退出

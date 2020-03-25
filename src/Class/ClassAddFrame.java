@@ -19,10 +19,10 @@ public class ClassAddFrame extends JFrame {
     JButton jButton2 = new JButton();
     JOptionPane jOptionPane1 = new JOptionPane();
     JComboBox jComboBox1 = new JComboBox();
+    JComboBox jComboBox2 = new JComboBox();
     String school;
     String department;
     JLabel jLabel4 = new JLabel();
-    JComboBox jComboBox2 = new JComboBox();
 
     public ClassAddFrame() {
         try {
@@ -93,8 +93,9 @@ public class ClassAddFrame extends JFrame {
         contentPane.add(jTextField1);
         contentPane.add(jLabel4);
         contentPane.add(jComboBox2);
-        contentPane.add(jButton2);
         contentPane.add(jButton1);
+        contentPane.add(jButton2);
+
         jComboBox1.addItem("请选择学院");
         //将学院的信息展示到复选框中
         ResultSet rs = DBConnection.getDBConnection().query("select * from school");
