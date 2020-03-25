@@ -213,7 +213,14 @@ public class CourseManager extends JFrame {
         if (row == -1) {
             jOptionPane1.showMessageDialog(this, "请选择要修改的课程！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
         }
-        //
+        String now = model.getValueAt(row, 0).toString().trim();
+        CourseChange siadd = new CourseChange(now);
+        siadd.setLocation(400, 200);
+        siadd.setSize(465, 310);
+        siadd.setVisible(true);
+        siadd.setResizable(false);
+        siadd.validate();
+        this.dispose();
     }
 
     public void jButton5_actionPerformed(ActionEvent e){
