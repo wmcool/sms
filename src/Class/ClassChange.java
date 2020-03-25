@@ -9,7 +9,9 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ClassAddFrame extends JFrame {
+public class ClassChange extends JFrame {
+    private String classId;
+
     JPanel contentPane;
     JLabel jLabel1 = new JLabel();
     JLabel jLabel2 = new JLabel();
@@ -19,28 +21,26 @@ public class ClassAddFrame extends JFrame {
     JButton jButton2 = new JButton();
     JOptionPane jOptionPane1 = new JOptionPane();
     JComboBox jComboBox1 = new JComboBox();
-    String school;
-    String department;
     JLabel jLabel4 = new JLabel();
     JComboBox jComboBox2 = new JComboBox();
 
-    public ClassAddFrame() {
+    public ClassChange(String classId) throws HeadlessException {
+        this.classId = classId;
         try {
             jbInit();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 
-    private void jbInit() throws Exception {
+    public void jbInit() throws Exception {
         contentPane = (JPanel) getContentPane();
         contentPane.setLayout(null);
-//        setSize(new Dimension(465, 280));
-        setSize(new Dimension(465, 320));
-        setTitle("班级录入");
+        setSize(new Dimension(465, 280));
+        setTitle("班级修改");
 
         jLabel1.setFont(new java.awt.Font("Dialog", Font.BOLD, 20));
-        jLabel1.setText("班 级 信 息 录 入");
+        jLabel1.setText("班 级 信 息 修 改");
         jLabel1.setBounds(new Rectangle(136, 20, 212, 25));
 
         jLabel2.setFont(new java.awt.Font("Dialog", Font.PLAIN, 18));
@@ -62,15 +62,15 @@ public class ClassAddFrame extends JFrame {
         jButton1.setBounds(new Rectangle(102, 223, 96, 29));
         jButton1.setFont(new java.awt.Font("Dialog", Font.BOLD, 16));
         jButton1.setBorder(BorderFactory.createRaisedBevelBorder());
-        jButton1.setText("提  交");
-        jButton1.addActionListener(new AddClassFrame_jButton1_actionAdapter(this));
+        jButton1.setText("修  改");
+        jButton1.addActionListener(new ClassChange_jButton1_actionAdapter(this));
 
         jButton2.setBounds(new Rectangle(265, 221, 96, 31));
         jButton2.setFont(new java.awt.Font("Dialog", Font.BOLD, 16));
         jButton2.setBorder(BorderFactory.createRaisedBevelBorder());
         jButton2.setToolTipText("");
         jButton2.setText("退  出");
-        jButton2.addActionListener(new AddClassFrame_jButton2_actionAdapter(this));
+        jButton2.addActionListener(new ClassChange_jButton2_actionAdapter(this));
 
         jOptionPane1.setBounds(new Rectangle(106, 258, 262, 90));
         jOptionPane1.setLayout(null);
@@ -78,8 +78,7 @@ public class ClassAddFrame extends JFrame {
         jComboBox1.setFont(new java.awt.Font("Dialog", Font.PLAIN, 16));
         jComboBox1.setEditable(true);
         jComboBox1.setBounds(new Rectangle(180, 130, 180, 25));
-        jComboBox1.addActionListener(new AddClassFrame_jComboBox1_actionAdapter(this));
-
+        jComboBox1.addActionListener(new ClassChange_jComboBox1_actionAdapter(this));
 
         jComboBox2.setFont(new java.awt.Font("Dialog", Font.PLAIN, 16));
         jComboBox2.setEditable(true);
@@ -96,6 +95,7 @@ public class ClassAddFrame extends JFrame {
         contentPane.add(jButton2);
         contentPane.add(jButton1);
         jComboBox1.addItem("请选择学院");
+
         //将学院的信息展示到复选框中
         ResultSet rs = DBConnection.getDBConnection().query("select * from school");
         while (rs.next()) {
@@ -121,9 +121,9 @@ public class ClassAddFrame extends JFrame {
         }
     }
 
-    //退出
-    public void jButton2_actionPerformed(ActionEvent e) {
-        this.dispose();
+    public void jComboBox1_actionPerformed(ActionEvent e) {
+        fillDepart();
+        jComboBox2.setEnabled(true);
     }
 
     //提交
@@ -136,8 +136,8 @@ public class ClassAddFrame extends JFrame {
         } else if (jComboBox2.getSelectedIndex() == 0) {
             jOptionPane1.showMessageDialog(this, "请选择专业!", "提示", jOptionPane1.INFORMATION_MESSAGE, null);
         } else {
-            school = jComboBox1.getSelectedItem().toString();
-            department = jComboBox2.getSelectedItem().toString();
+            String school = jComboBox1.getSelectedItem().toString();
+            String department = jComboBox2.getSelectedItem().toString();
 
             boolean overlap = false;
             ResultSet rs = DBConnection.getDBConnection().query("select classId from class;");
@@ -153,22 +153,23 @@ public class ClassAddFrame extends JFrame {
             if (overlap) {
                 jOptionPane1.showMessageDialog(this, "该班号已经存在！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
             } else {
-                DBConnection.getDBConnection().Update("insert into class values ('" + jTextField1.getText().trim() + "','" + school + "','" + department + "')");
-                jOptionPane1.showMessageDialog(this, "恭喜您班级信息录入成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
+                DBConnection.getDBConnection().Update("update class set classId='" + jTextField1.getText().trim() + "',schoolName='" + jComboBox1.getSelectedItem().toString()
+                        + "',departName='" + jComboBox2.getSelectedItem().toString() + "' where classId='" + classId + "';");
+                jOptionPane1.showMessageDialog(this, "恭喜您班级信息修改成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
             }
 
         }
     }
 
-    public void jComboBox1_actionPerformed(ActionEvent e) {
-        fillDepart();
-        jComboBox2.setEnabled(true);
+    //退出
+    public void jButton2_actionPerformed(ActionEvent e) {
+        this.dispose();
     }
 
-    class AddClassFrame_jComboBox1_actionAdapter implements ActionListener {
-        private ClassAddFrame adaptee;
+    class ClassChange_jComboBox1_actionAdapter implements ActionListener {
+        private ClassChange adaptee;
 
-        AddClassFrame_jComboBox1_actionAdapter(ClassAddFrame adaptee) {
+        ClassChange_jComboBox1_actionAdapter(ClassChange adaptee) {
             this.adaptee = adaptee;
         }
 
@@ -177,10 +178,10 @@ public class ClassAddFrame extends JFrame {
         }
     }
 
-    class AddClassFrame_jButton1_actionAdapter implements ActionListener {
-        private ClassAddFrame adaptee;
+    class ClassChange_jButton1_actionAdapter implements ActionListener {
+        private ClassChange adaptee;
 
-        AddClassFrame_jButton1_actionAdapter(ClassAddFrame adaptee) {
+        ClassChange_jButton1_actionAdapter(ClassChange adaptee) {
             this.adaptee = adaptee;
         }
 
@@ -190,28 +191,15 @@ public class ClassAddFrame extends JFrame {
         }
     }
 
-    class AddClassFrame_jButton2_actionAdapter implements ActionListener {
-        private ClassAddFrame adaptee;
+    class ClassChange_jButton2_actionAdapter implements ActionListener {
+        private ClassChange adaptee;
 
-        AddClassFrame_jButton2_actionAdapter(ClassAddFrame adaptee) {
+        ClassChange_jButton2_actionAdapter(ClassChange adaptee) {
             this.adaptee = adaptee;
         }
 
         public void actionPerformed(ActionEvent e) {
             adaptee.jButton2_actionPerformed(e);
         }
-    }
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ClassAddFrame window = new ClassAddFrame();
-                    window.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 }

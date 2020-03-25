@@ -2,7 +2,6 @@ package Class;
 
 import com.borland.jbcl.layout.XYConstraints;
 import com.borland.jbcl.layout.XYLayout;
-import com.borland.jbcl.util.Res;
 import db.DBConnection;
 
 import javax.swing.*;
@@ -46,7 +45,7 @@ public class ClassManager extends JFrame {
     String[] arrField = {"班级编号", "学院名称", "专业名称"};
     JOptionPane jOptionPane1 = new JOptionPane();
     DefaultTableModel model = new DefaultTableModel();
-    String sql, find;
+    String sql;
     int intRow;
 
     public static void main(String[] args) {
@@ -54,7 +53,7 @@ public class ClassManager extends JFrame {
             public void run() {
                 try {
                     ClassManager window = new ClassManager();
-                    window.setSize(600, 520);
+                    window.setSize(600, 600);
                     window.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -262,13 +261,19 @@ public class ClassManager extends JFrame {
         UpdateRecord();
     }
 
-    public void jButton4_actionPerformed(ActionEvent e){
+    public void jButton4_actionPerformed(ActionEvent e) {
         int row = jTable1.getSelectedRow();
-        if(intRow == -1){
+        if (intRow == -1) {
             jOptionPane1.showMessageDialog(this, "请选择要修改的班级！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
         }
         String now = model.getValueAt(intRow, 0).toString().trim();
-        //change class
+        ClassChange siadd = new ClassChange(now);
+        siadd.setLocation(400, 200);
+        siadd.setSize(465, 310);
+        siadd.setVisible(true);
+        siadd.setResizable(false);
+        siadd.validate();
+        this.dispose();
     }
 
     public void jButton5_actionPerformed(ActionEvent e){
