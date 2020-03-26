@@ -46,7 +46,6 @@ public class ClassManager extends JFrame {
     JOptionPane jOptionPane1 = new JOptionPane();
     DefaultTableModel model = new DefaultTableModel();
     String sql;
-    int intRow;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -64,13 +63,13 @@ public class ClassManager extends JFrame {
 
     public ClassManager() {
         try {
-            jbInit();
+            init();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
-    private void jbInit() throws Exception {
+    private void init() throws Exception {
         getContentPane().setLayout(xyLayout1);
         xyLayout1.setWidth(530);
         xyLayout1.setHeight(540);
@@ -138,12 +137,12 @@ public class ClassManager extends JFrame {
         jPanel1.add(jTextField1, new XYConstraints(260, 130, 130, 25));
         jPanel1.add(jLabel5, new XYConstraints(150, 90, 100, 25));
         jPanel1.add(jComboBox3, new XYConstraints(260, 90, 130, 25));
-        this.getContentPane().add(jLabel1, new XYConstraints(177, 14, 177, 39));
-        this.getContentPane().add(jPanel1, new XYConstraints(10, 59, 510, 170));
         jPanel1.add(jButton1, new XYConstraints(410, 10, 80, 25));
         jPanel1.add(jButton2, new XYConstraints(410, 90, 80, 25));
         jPanel1.add(jButton3, new XYConstraints(410, 130, 80, 25));
         jScrollPane1.getViewport().add(jTable1);
+        this.getContentPane().add(jLabel1, new XYConstraints(177, 14, 177, 39));
+        this.getContentPane().add(jPanel1, new XYConstraints(10, 59, 510, 170));
         this.getContentPane().add(jScrollPane1, new XYConstraints(10, 239, 510, 225));
         this.getContentPane().add(jButton4, new XYConstraints(100, 480, 90, 35));
         this.getContentPane().add(jButton5, new XYConstraints(220, 480, 90, 35));

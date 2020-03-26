@@ -98,7 +98,7 @@ public class ClassAddFrame extends JFrame {
 
         jComboBox1.addItem("请选择学院");
         //将学院的信息展示到复选框中
-        ResultSet rs = DBConnection.getDBConnection().query("select * from school");
+        ResultSet rs = DBConnection.getDBConnection().query("select * from school;");
         while (rs.next()) {
             String school = rs.getString("schoolName");
             jComboBox1.addItem(school);

@@ -27,13 +27,13 @@ public class ClassChange extends JFrame {
     public ClassChange(String classId) throws HeadlessException {
         this.classId = classId;
         try {
-            jbInit();
+            init();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
-    public void jbInit() throws Exception {
+    public void init() throws Exception {
         contentPane = (JPanel) getContentPane();
         contentPane.setLayout(null);
         setSize(new Dimension(465, 280));
@@ -186,7 +186,6 @@ public class ClassChange extends JFrame {
         }
 
         public void actionPerformed(ActionEvent e) {
-
             adaptee.jButton1_actionPerformed(e);
         }
     }
