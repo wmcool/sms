@@ -1,4 +1,4 @@
-package department;
+package Department;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;

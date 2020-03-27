@@ -1,4 +1,4 @@
-package department;
+package Department;
 
 import java.awt.Color;
 import java.awt.Dimension;
