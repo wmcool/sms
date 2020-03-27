@@ -49,6 +49,8 @@ public class StudentManager extends JFrame {
     DefaultTableModel model = new DefaultTableModel();
     String sql;
 
+    private StudentManager_jComboBox2_actionAdapter actionAdapter = new StudentManager_jComboBox2_actionAdapter(this);
+
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -93,7 +95,7 @@ public class StudentManager extends JFrame {
         jComboBox1.addActionListener(new StudentManager_jComboBox1_actionAdapter(this));
 
         jComboBox2.setFont(new java.awt.Font("Dialog", Font.PLAIN, 16));
-        jComboBox2.addActionListener(new StudentManager_jComboBox2_actionAdapter(this));
+        jComboBox2.addActionListener(actionAdapter);
 
         jComboBox3.setFont(new java.awt.Font("Dialog", Font.PLAIN, 16));
 
@@ -264,14 +266,33 @@ public class StudentManager extends JFrame {
     }
 
     public void jButton3_actionPerformed(ActionEvent e) {
-        sql = "select * from student where stuSchool='" + jComboBox1.getSelectedItem().toString() + "' and stuDept='" + jComboBox2.getSelectedItem().toString() +
-                "' and stuClass='" + jComboBox3.getSelectedItem().toString() + "';";
+        StringBuilder sb = new StringBuilder();
+        boolean and = false;
+        sb.append("select * from student where ");
+//        sql = "select * from student where stuSchool='" + jComboBox1.getSelectedItem().toString() + "' and stuDept='" + jComboBox2.getSelectedItem().toString() +
+//                "' and stuClass='" + jComboBox3.getSelectedItem().toString() + "';";
+
+        if(jComboBox1.getSelectedIndex() != 0){
+            sb.append("stuSchool='" + jComboBox1.getSelectedItem().toString() + "'");
+            and = true;
+        }
+        if(jComboBox2.getSelectedIndex() != 0){
+            if(and) sb.append(" and ");
+            sb.append("stuDept='" + jComboBox2.getSelectedItem().toString() + "'");
+        }
+        if(jComboBox3.getSelectedIndex() != 0){
+            if(and) sb.append(" and ");
+            sb.append("stuClass='" + jComboBox3.getSelectedItem().toString() + "';");
+        }
+        sql = sb.toString();
         UpdateRecord();
     }
 
     public void jComboBox1_actionPerformed(ActionEvent e) {
         jComboBox2.setEnabled(true);
+        jComboBox2.removeActionListener(actionAdapter);
         jComboBox2.removeAllItems();
+        jComboBox2.addActionListener(actionAdapter);
         jComboBox2.addItem("请选择专业");
         ResultSet rs = DBConnection.getDBConnection().query("select * from department where schoolName='" + jComboBox1.getSelectedItem().toString() + "';");
         try {
@@ -283,6 +304,7 @@ public class StudentManager extends JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        jComboBox3.setEnabled(false);
     }
 
     public void jComboBox2_actionPerformed(ActionEvent e) {
@@ -310,7 +332,7 @@ public class StudentManager extends JFrame {
         String now = model.getValueAt(row, 0).toString().trim();
         StudentChange siadd = new StudentChange(now);
         siadd.setLocation(400, 200);
-        siadd.setSize(465, 310);
+        siadd.setSize(465, 400);
         siadd.setVisible(true);
         siadd.setResizable(false);
         siadd.validate();

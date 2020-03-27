@@ -1,6 +1,5 @@
 package Student;
 
-import Course.CourseAddFrame;
 import db.DBConnection;
 
 import javax.swing.*;
