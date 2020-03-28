@@ -26,7 +26,7 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
 import db.DBConnection;
-import Department.DepartmentManager;
+import department.DepartmentManager;
 
 public class SCManager extends JFrame {
 	JPanel contentPane;
@@ -254,6 +254,9 @@ public class SCManager extends JFrame {
 	            return;
 	        }
 	        String score = JOptionPane.showInputDialog(adaptee,"请输入：(不改变为空)\n","成绩",JOptionPane.PLAIN_MESSAGE);
+	        if (score==null) {
+				return;
+			}
 	        if (score.length()==0) {
 				return;
 			}

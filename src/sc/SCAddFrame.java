@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import db.DBConnection;
-import Department.DepartmentAddFrame;
+import department.DepartmentAddFrame;
 
 public class SCAddFrame extends JFrame {
 

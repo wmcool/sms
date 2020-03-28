@@ -1,4 +1,4 @@
-package Department;
+package department;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -281,8 +281,14 @@ public class DepartmentManager extends JFrame {
 		        for (int i = 0; i < obj.length; i++) {
 					obj[i] = ops.get(i);
 				}        
-		        String newSchool = (String) JOptionPane.showInputDialog(adaptee, "该专业所属学院:\n", "专业", JOptionPane.PLAIN_MESSAGE, null, obj, model.getValueAt(row, 1).toString().trim());	        
+		        String newSchool = (String) JOptionPane.showInputDialog(adaptee, "该专业所属学院:\n", "专业", JOptionPane.PLAIN_MESSAGE, null, obj, model.getValueAt(row, 1).toString().trim());
+		        if (newSchool==null) {
+					return;
+				}
 		        String newdept = JOptionPane.showInputDialog(adaptee,"请输入：(不改变为空)\n","新系名",JOptionPane.PLAIN_MESSAGE);
+		        if (newdept==null) {
+					return;
+				}
 		        if (newdept.length()==0) {
 					newdept = model.getValueAt(row, 2).toString().trim();
 				}

@@ -1,4 +1,4 @@
-package Department;
+package department;
 
 import db.DBConnection;
 
@@ -37,22 +37,22 @@ public class DepartChange extends JFrame {
         contentPane = (JPanel) getContentPane();
         contentPane.setLayout(null);
         setSize(new Dimension(465, 280));
-        setTitle("专业修改");
+        setTitle("涓撲笟淇敼");
 
         jLabel1.setFont(new java.awt.Font("Dialog", Font.BOLD, 20));
-        jLabel1.setText("专 业 信 息 修 改");
+        jLabel1.setText("涓� 涓� 淇� 鎭� 淇� 鏀�");
         jLabel1.setBounds(new Rectangle(136, 20, 212, 25));
 
         jLabel2.setFont(new java.awt.Font("Dialog", Font.PLAIN, 18));
-        jLabel2.setText("专业编号：");
+        jLabel2.setText("涓撲笟缂栧彿锛�");
         jLabel2.setBounds(new Rectangle(80, 80, 90, 20));
 
         jLabel3.setFont(new java.awt.Font("Dialog", Font.PLAIN, 18));
-        jLabel3.setText("所属学院：");
+        jLabel3.setText("鎵�灞炲闄細");
         jLabel3.setBounds(new Rectangle(80, 130, 90, 20));
 
         jLabel4.setFont(new java.awt.Font("Dialog", Font.PLAIN, 18));
-        jLabel4.setText("专业名称：");
+        jLabel4.setText("涓撲笟鍚嶇О锛�");
         jLabel4.setBounds(new Rectangle(80, 180, 90, 20));
 
         jTextField1.setFont(new java.awt.Font("Dialog", Font.BOLD, 16));
@@ -70,14 +70,14 @@ public class DepartChange extends JFrame {
         jButton1.setBounds(new Rectangle(102, 223, 96, 29));
         jButton1.setFont(new java.awt.Font("Dialog", Font.BOLD, 16));
         jButton1.setBorder(BorderFactory.createRaisedBevelBorder());
-        jButton1.setText("修  改");
+        jButton1.setText("淇�  鏀�");
         jButton1.addActionListener(new DepartChange_jButton1_actionAdapter(this));
 
         jButton2.setBounds(new Rectangle(265, 221, 96, 31));
         jButton2.setFont(new java.awt.Font("Dialog", Font.BOLD, 16));
         jButton2.setBorder(BorderFactory.createRaisedBevelBorder());
         jButton2.setToolTipText("");
-        jButton2.setText("退  出");
+        jButton2.setText("閫�  鍑�");
         jButton2.addActionListener(new DepartChange_jButton2_actionAdapter(this));
 
         contentPane.add(jLabel1);
@@ -90,9 +90,9 @@ public class DepartChange extends JFrame {
         contentPane.add(jTextField2);
         contentPane.add(jButton2);
         contentPane.add(jButton1);
-        jComboBox1.addItem("请选择学院");
+        jComboBox1.addItem("璇烽�夋嫨瀛﹂櫌");
 
-        //将学院的信息展示到复选框中
+        //灏嗗闄㈢殑淇℃伅灞曠ず鍒板閫夋涓�
         ResultSet rs = DBConnection.getDBConnection().query("select * from school");
         while (rs.next()) {
             String school = rs.getString("schoolName");
@@ -100,15 +100,15 @@ public class DepartChange extends JFrame {
         }
     }
 
-    //提交
+    //鎻愪氦
     public void jButton1_actionPerformed(ActionEvent e) {
-        //异常判断
+        //寮傚父鍒ゆ柇
         if (this.jTextField1.getText().trim().length() == 0) {
-            jOptionPane1.showMessageDialog(this, "专业编号不能为空!", "提示", jOptionPane1.INFORMATION_MESSAGE, null);
+            jOptionPane1.showMessageDialog(this, "涓撲笟缂栧彿涓嶈兘涓虹┖!", "鎻愮ず", jOptionPane1.INFORMATION_MESSAGE, null);
         } else if (jComboBox1.getSelectedIndex() == 0) {
-            jOptionPane1.showMessageDialog(this, "请选择学院!", "提示", jOptionPane1.INFORMATION_MESSAGE, null);
+            jOptionPane1.showMessageDialog(this, "璇烽�夋嫨瀛﹂櫌!", "鎻愮ず", jOptionPane1.INFORMATION_MESSAGE, null);
         } else if (jTextField2.getText().trim().length() == 0) {
-            jOptionPane1.showMessageDialog(this, "请填写专业名称!", "提示", jOptionPane1.INFORMATION_MESSAGE, null);
+            jOptionPane1.showMessageDialog(this, "璇峰～鍐欎笓涓氬悕绉�!", "鎻愮ず", jOptionPane1.INFORMATION_MESSAGE, null);
         } else {
             String departId = jTextField1.getText().trim();
             String departName = jTextField2.getText().trim();
@@ -126,17 +126,17 @@ public class DepartChange extends JFrame {
                 ec.printStackTrace();
             }
             if (overlap) {
-                jOptionPane1.showMessageDialog(this, "专业编号或名称已经存在！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
+                jOptionPane1.showMessageDialog(this, "涓撲笟缂栧彿鎴栧悕绉板凡缁忓瓨鍦紒", "鎻愮ず", JOptionPane.INFORMATION_MESSAGE, null);
             } else {
                 DBConnection.getDBConnection().Update("update department set deptId='" + departId + "',schoolName='" + jComboBox1.getSelectedItem().toString() +
                         "',departName='" + departName + "' where deptId='" + deptId + "';");
-                jOptionPane1.showMessageDialog(this, "恭喜您专业信息录入成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
+                jOptionPane1.showMessageDialog(this, "鎭枩鎮ㄤ笓涓氫俊鎭綍鍏ユ垚鍔燂紒", "鎻愮ず", JOptionPane.INFORMATION_MESSAGE, null);
             }
 
         }
     }
 
-    //退出
+    //閫�鍑�
     public void jButton2_actionPerformed(ActionEvent e) {
         this.dispose();
     }
