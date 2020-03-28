@@ -124,3 +124,35 @@ CREATE TABLE `student` (
 
 
 INSERT INTO `student` VALUES (3001,'黄章','计算机学院','软件工程',1),(3003,'马云','计算机学院','计算机科学与技术',2),(3002,'马化腾','计算机学院','软件工程',1),(3004,'周鸿祎','自动化学院','物联网工程',2),(3005,'雷军','自动化学院','物联网工程',2),(3006,'李彦宏','物理学院','物理学',1),(3007,'刘强东','政法学院','法学',1),(3008,'丁磊','物理学院','物理学',1),(3009,'张朝阳','艺术设计学院','服装设计',1);
+
+alter table `class` add constraint `class_school` foreign key (schoolName) references school (schoolName)
+on delete cascade
+on update cascade;
+
+alter table `class` add constraint `class_depart` foreign key (departName) references department (departName)
+on delete cascade
+on update cascade;
+
+alter table `sc` add constraint `sc_student` foreign key (stuNumber) references student (stuNumber)
+on delete cascade
+on update cascade;
+
+alter table `sc` add constraint `sc_course` foreign key (courseName) references course (courseName)
+on delete cascade
+on update cascade;
+
+alter table `department` add constraint `department_school` foreign key (schoolName) references school (schoolName)
+on delete cascade
+on update cascade;
+
+alter table `student` add constraint `student_school` foreign key (stuSchool) references school (schoolName)
+on delete cascade
+on update cascade;
+
+alter table `student` add constraint `student_depart` foreign key (stuDept) references department (departName)
+on delete cascade
+on update cascade;
+
+alter table `student` add constraint `student_class` foreign key (stuClass) references class (classId)
+on delete cascade
+on update cascade;
