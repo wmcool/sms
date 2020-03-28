@@ -26,7 +26,7 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
 import db.DBConnection;
-import department.DepartmentManager;
+import Department.DepartmentManager;
 
 public class SCManager extends JFrame {
 	JPanel contentPane;

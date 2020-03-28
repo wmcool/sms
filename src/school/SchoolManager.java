@@ -25,7 +25,7 @@ import com.borland.jbcl.layout.XYLayout;
 
 import Class.ClassAddFrame;
 import db.DBConnection;
-import department.DepartmentManager;
+import Department.DepartmentManager;
 
 public class SchoolManager extends JFrame{
 
