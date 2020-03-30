@@ -7,20 +7,24 @@ import java.sql.*;
 public class DBConnection {
     private Connection conn;
     private static DBConnection dbConnection;
+    public static String userString;
+    public static String passwordString;
 
-    private DBConnection() throws ClassNotFoundException, SQLException {
+    private DBConnection(String user, String password) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        conn = DriverManager.getConnection("jdbc:mysql://localhost/lab1?serverTimezone=UTC", "root", "coolwm666");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost/sms?serverTimezone=UTC", user, password);
+        this.passwordString = password;
+        this.userString = user;
     }
 
     public Connection getConnection() {
         return conn;
     }
 
-    public static DBConnection getDBConnection() {
+    public static DBConnection getDBConnection(String user, String password) {
         if (dbConnection == null) {
             try {
-                dbConnection = new DBConnection();
+                dbConnection = new DBConnection(user, password);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (SQLException e) {
@@ -54,7 +58,7 @@ public class DBConnection {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         String sql = "select * from class;";
-        Statement stmt = getDBConnection().getConnection().createStatement();
+        Statement stmt = getDBConnection("root", "").getConnection().createStatement();
         ResultSet set = stmt.executeQuery(sql);
         while (set.next()) {
             String mclass = set.getString("schoolName");

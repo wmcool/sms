@@ -113,7 +113,7 @@ public class CourseAddFrame extends JFrame {
         } else {
             try {
                 boolean overlap = false;
-                ResultSet rs = DBConnection.getDBConnection().query("select courseId from course;");
+                ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select courseId from course;");
                 while (rs.next()) {
                     if (jTextField1.getText().trim().equals(rs.getString("courseId").trim())) {
                         overlap = true;
@@ -122,7 +122,7 @@ public class CourseAddFrame extends JFrame {
                 if (overlap) {
                     jOptionPane1.showMessageDialog(this, "课程代码已经存在！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
                 } else {
-                    DBConnection.getDBConnection().Update("insert into course values('" + jTextField1.getText().trim() + "','" + jTextField2.getText().trim() + "','" + Float.valueOf(jTextField3.getText().trim()) + "');");
+                    DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("insert into course values('" + jTextField1.getText().trim() + "','" + jTextField2.getText().trim() + "','" + Float.valueOf(jTextField3.getText().trim()) + "');");
                     jOptionPane1.showMessageDialog(this, "课程信息提交成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
                 }
                 rs.close();

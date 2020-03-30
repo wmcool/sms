@@ -47,7 +47,7 @@ public class DepartmentManager extends JFrame {
 	JComboBox jComboBox1 = new JComboBox();
 	JComboBox jComboBox2 = new JComboBox();
 	JButton button1 = new JButton();
-	DBConnection conn = DBConnection.getDBConnection();
+	DBConnection conn = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString);
 	JPanel jPanel2 = new JPanel();
 	Border etchedBorder2 = BorderFactory.createEtchedBorder();
 	JScrollPane jScrollPane1 = new JScrollPane();
@@ -124,12 +124,12 @@ public class DepartmentManager extends JFrame {
         jPanel1.add(button1);
         jComboBox1.addItem("");
         jComboBox2.addItem("");
-        ResultSet rs = DBConnection.getDBConnection().query("select * from department");
+        ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select * from department");
         while (rs.next()) {
         	String departName = rs.getString("departName");
         	jComboBox2.addItem(departName);
         }
-        rs = DBConnection.getDBConnection().query("select * from school");
+        rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select * from school");
         while (rs.next()) {
         	String schoolName = rs.getString("schoolName");
         	jComboBox1.addItem(schoolName);
@@ -249,7 +249,7 @@ public class DepartmentManager extends JFrame {
 	            jOptionPane1.showMessageDialog(adaptee, "请选择要删除的专业！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
 	        }
 	        String now = model.getValueAt(row, 0).toString().trim();
-	        DBConnection.getDBConnection().Update("delete from department where deptId='" + now + "'");
+	        DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("delete from department where deptId='" + now + "'");
 	        jOptionPane1.showMessageDialog(adaptee, "恭喜您删除成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
 		}	
 	}
@@ -281,8 +281,14 @@ public class DepartmentManager extends JFrame {
 		        for (int i = 0; i < obj.length; i++) {
 					obj[i] = ops.get(i);
 				}        
-		        String newSchool = (String) JOptionPane.showInputDialog(adaptee, "该专业所属学院:\n", "专业", JOptionPane.PLAIN_MESSAGE, null, obj, model.getValueAt(row, 1).toString().trim());	        
+		        String newSchool = (String) JOptionPane.showInputDialog(adaptee, "该专业所属学院:\n", "专业", JOptionPane.PLAIN_MESSAGE, null, obj, model.getValueAt(row, 1).toString().trim());
+		        if (newSchool==null) {
+					return;
+				}
 		        String newdept = JOptionPane.showInputDialog(adaptee,"请输入：(不改变为空)\n","新系名",JOptionPane.PLAIN_MESSAGE);
+		        if (newdept==null) {
+					return;
+				}
 		        if (newdept.length()==0) {
 					newdept = model.getValueAt(row, 2).toString().trim();
 				}
