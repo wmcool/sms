@@ -25,8 +25,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
+import Department.DepartmentManager;
 import db.DBConnection;
-import department.DepartmentManager;
 
 public class SCManager extends JFrame {
 	JPanel contentPane;
@@ -41,7 +41,7 @@ public class SCManager extends JFrame {
 	JTextField jTextField3 = new JTextField();
 	JTextField jTextField4 = new JTextField();
 	JButton button1 = new JButton();
-	DBConnection conn = DBConnection.getDBConnection();
+	DBConnection conn = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString);
 	JPanel jPanel2 = new JPanel();
 	Border etchedBorder2 = BorderFactory.createEtchedBorder();
 	JScrollPane jScrollPane1 = new JScrollPane();
@@ -234,7 +234,7 @@ public class SCManager extends JFrame {
 	        }
 	        String now = model.getValueAt(row, 0).toString().trim();
 	        String now1 = model.getValueAt(row, 1).toString().trim();
-	        DBConnection.getDBConnection().Update("delete from sc where stuNumber='" + now + "' and courceName='"+now1+"';");
+	        DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("delete from sc where stuNumber='" + now + "' and courceName='"+now1+"';");
 	        jOptionPane1.showMessageDialog(adaptee, "恭喜您删除成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
 		}	
 	}

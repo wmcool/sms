@@ -40,7 +40,7 @@ public class CourseManager extends JFrame {
     JButton jButton4 = new JButton();
     JButton jButton5 = new JButton();
     JButton jButton6 = new JButton();
-    DBConnection conn = DBConnection.getDBConnection();
+    DBConnection conn = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString);
     Object[][] arrData = {};
     String[] arrField = {"课程编号", "课程名称", "学分"};
     JOptionPane jOptionPane1 = new JOptionPane();
@@ -186,7 +186,7 @@ public class CourseManager extends JFrame {
         jTable1 = new JTable(model);
         jScrollPane1.getViewport().add(jTable1, null);
         try {
-            ResultSet rs3 = DBConnection.getDBConnection().query(sql);
+            ResultSet rs3 = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query(sql);
             while (rs3.next()) {
                 vec = new Vector();
                 vec.add(String.valueOf(rs3.getInt("courseId")));
@@ -229,7 +229,7 @@ public class CourseManager extends JFrame {
             jOptionPane1.showMessageDialog(this, "请选择要删除的课程！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
         }
         String now = model.getValueAt(row, 0).toString().trim();
-        DBConnection.getDBConnection().Update("delete from course where courseId=" + Integer.valueOf(now) + ";");
+        DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("delete from course where courseId=" + Integer.valueOf(now) + ";");
         updateRecord();
     }
 

@@ -24,8 +24,8 @@ import javax.swing.table.DefaultTableModel;
 import com.borland.jbcl.layout.XYLayout;
 
 import Class.ClassAddFrame;
+import Department.DepartmentManager;
 import db.DBConnection;
-import department.DepartmentManager;
 
 public class SchoolManager extends JFrame{
 
@@ -72,7 +72,7 @@ public class SchoolManager extends JFrame{
         jTable1 = new JTable(model);
         jScrollPane1.getViewport().add(jTable1, null);
         jScrollPane1.setBounds(50, 50, 200, 200);
-        ResultSet rs = DBConnection.getDBConnection().query("select schoolName from school");
+        ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select schoolName from school");
         Vector vec = new Vector(1, 1);
         while (rs.next()) {
             vec = new Vector();
@@ -122,14 +122,14 @@ public class SchoolManager extends JFrame{
 	            return;
 			}
 	        String now = model.getValueAt(row, 0).toString().trim();
-	        DBConnection.getDBConnection().Update("delete from school where schoolName='" + now + "'");
+	        DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("delete from school where schoolName='" + now + "'");
 	        jOptionPane1.showMessageDialog(adaptee, "恭喜您删除成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
 	        Object[][] arrTmp = {};
 	        model  = new DefaultTableModel(arrTmp, arrField);
 	        jTable1 = new JTable(model);
 	        jScrollPane1.getViewport().add(jTable1, null);
 	        jScrollPane1.setBounds(50, 50, 200, 200);
-	        ResultSet rs = DBConnection.getDBConnection().query("select schoolName from school");
+	        ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select schoolName from school");
 	        Vector vec = new Vector(1, 1);
 	        try {
 				while (rs.next()) {
@@ -172,14 +172,14 @@ public class SchoolManager extends JFrame{
 	        if (newschool.length()==0) {
 				newschool = model.getValueAt(row, 0).toString().trim();
 			}
-	        DBConnection.getDBConnection().Update("update school set schoolName='"+newschool+"' where schoolName='"+model.getValueAt(row, 0).toString().trim()+"';");
+	        DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("update school set schoolName='"+newschool+"' where schoolName='"+model.getValueAt(row, 0).toString().trim()+"';");
 	        jOptionPane1.showMessageDialog(adaptee, "恭喜您修改成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
 	        Object[][] arrTmp = {};
 	        model  = new DefaultTableModel(arrTmp, arrField);
 	        jTable1 = new JTable(model);
 	        jScrollPane1.getViewport().add(jTable1, null);
 	        jScrollPane1.setBounds(50, 50, 200, 200);
-	        ResultSet rs = DBConnection.getDBConnection().query("select schoolName from school");
+	        ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select schoolName from school");
 	        Vector vec = new Vector(1, 1);
 	        try {
 				while (rs.next()) {

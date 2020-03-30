@@ -42,7 +42,7 @@ public class StudentManager extends JFrame {
     JButton jButton4 = new JButton();
     JButton jButton5 = new JButton();
     JButton jButton6 = new JButton();
-    DBConnection conn = DBConnection.getDBConnection();
+    DBConnection conn = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString);
     Object[][] arrData = {};
     String[] arrField = {"学号", "姓名", "学院名称", "专业名称", "班号"};
     JOptionPane jOptionPane1 = new JOptionPane();
@@ -231,7 +231,7 @@ public class StudentManager extends JFrame {
         jTable1 = new JTable(model);
         jScrollPane1.getViewport().add(jTable1, null);
         try {
-            ResultSet rs3 = DBConnection.getDBConnection().query(sql);
+            ResultSet rs3 = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query(sql);
             while (rs3.next()) {
                 vec = new Vector();
                 vec.add(String.valueOf(rs3.getInt("stuNumber")));
@@ -294,7 +294,7 @@ public class StudentManager extends JFrame {
         jComboBox2.removeAllItems();
         jComboBox2.addActionListener(actionAdapter);
         jComboBox2.addItem("请选择专业");
-        ResultSet rs = DBConnection.getDBConnection().query("select * from department where schoolName='" + jComboBox1.getSelectedItem().toString() + "';");
+        ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select * from department where schoolName='" + jComboBox1.getSelectedItem().toString() + "';");
         try {
             while (rs.next()) {
                 String depart = rs.getString("departName");
@@ -311,7 +311,7 @@ public class StudentManager extends JFrame {
         jComboBox3.setEnabled(true);
         jComboBox3.removeAllItems();
         jComboBox3.addItem("请选择班级");
-        ResultSet rs = DBConnection.getDBConnection().query("select * from class where schoolName='" + jComboBox1.getSelectedItem().toString() + "' and departName='" +
+        ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select * from class where schoolName='" + jComboBox1.getSelectedItem().toString() + "' and departName='" +
                 jComboBox2.getSelectedItem().toString() + "';");
         try {
             while (rs.next()) {
@@ -345,7 +345,7 @@ public class StudentManager extends JFrame {
             jOptionPane1.showMessageDialog(this, "请选择要删除的学生！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
         }
         String now = model.getValueAt(row, 0).toString().trim();
-        DBConnection.getDBConnection().Update("delete from student where stuNumber=" + Integer.valueOf(now) + ";");
+        DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("delete from student where stuNumber=" + Integer.valueOf(now) + ";");
         UpdateRecord();
     }
 

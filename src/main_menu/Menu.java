@@ -1,10 +1,18 @@
 package main_menu;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -12,16 +20,19 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import Class.ClassAddFrame;
 import Class.ClassManager;
 import Course.CourseAddFrame;
 import Course.CourseManager;
+import Department.DepartmentAddFrame;
+import Department.DepartmentManager;
 import Student.StudentAddFrame;
 import Student.StudentManager;
-import department.DepartmentAddFrame;
-import department.DepartmentManager;
+import db.DBConnection;
 import sc.SCAddFrame;
 import sc.SCManager;
 import school.SchoolAddFrame;
@@ -32,7 +43,11 @@ public class Menu extends JFrame {
 	JPanel jPanel;
 	ImageIcon imageIcon;
 	JLabel jLabel1;
-	
+	JTextField jTextField1 = new JTextField();
+	JPasswordField jPasswordField = new JPasswordField();
+	JButton jButton = new JButton();
+	JTextField jTextField2 = new JTextField();
+	JTextField jTextField3 = new JTextField();
 	
 	public Menu() {
         try {
@@ -45,16 +60,59 @@ public class Menu extends JFrame {
 	private void jbInit() {
 		// TODO Auto-generated method stub
 		jPanel = (JPanel)getContentPane();
-		imageIcon = new ImageIcon("src/main_menu/2.jpg");
-		jLabel1 = new JLabel(imageIcon);
-		jLabel1.setBounds(0,0,imageIcon.getIconWidth(),imageIcon.getIconHeight());
-		jPanel.setBounds(0,0,imageIcon.getIconWidth(),imageIcon.getIconHeight());
-		jPanel.setOpaque(false);
+		jPanel.setLayout(null);
 		
-		getLayeredPane().setLayout(null);
-		getLayeredPane().add(jLabel1, new Integer(Integer.MIN_VALUE));
-		setSize(imageIcon.getIconWidth(),imageIcon.getIconHeight());
+		JPanel bgp=new BackgroundPanel((new ImageIcon("src/main_menu/2.jpg")).getImage());
+		bgp.setBounds(0,0,500,333);
+		
+		jPanel.add(bgp);
+//		jPanel.setOpaque(true);
+
+//		jPanel.setBounds(0,0,imageIcon.getIconWidth(),imageIcon.getIconHeight());
+		
+		jTextField1.setBounds(200,80,120,30);
+		jPanel.add(jTextField1);
+		
+		jPasswordField.setBounds(200, 190,120,30);
+		jPanel.add(jPasswordField);
+		
+		jButton.setText("登录");
+		jButton.setBounds(200, 250, 60, 30);
+		jButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				DBConnection.userString = jTextField1.getText();
+				DBConnection.passwordString = jPasswordField.getPassword().toString();
+				String sql = "select * from class;";
+		        
+				try {
+					Statement stmt = DBConnection.getDBConnection("root", "").getConnection().createStatement();
+			        ResultSet set;
+					set = stmt.executeQuery(sql);
+					 while (set.next()) {
+				            String mclass = set.getString("schoolName");
+				            System.out.println(mclass);
+				        }
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		       
+			}
+		});
+		jPanel.add(jButton);
+		
+		
+//		getLayeredPane().setLayout(null);
+//		getLayeredPane().add(jLabel1, new Integer(Integer.MIN_VALUE));
+//		setSize(imageIcon.getIconWidth(),imageIcon.getIconHeight());
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		this.setSize(500,333);
+		
+//		jTextField.setBounds(new Rectangle(180, 80, 180, 25));
+//		jPanel.add(jTextField);
 		
 		JMenuBar jMenuBar1 = new JMenuBar();
 		JMenu jMenu1 = new JMenu();
@@ -133,7 +191,7 @@ public class Menu extends JFrame {
 		            public void run() {
 		                try {
 		                	CourseManager window = new CourseManager();
-		                	window.setSize(550,600);
+//		                	window.setSize(550,600);
 		    				window.setVisible(true);
 		                } catch (Exception e) {
 		                    e.printStackTrace();
@@ -323,6 +381,7 @@ public class Menu extends JFrame {
             public void run() {
                 try {
                 	Menu window = new Menu();
+                	window.setSize(500,400);
                     window.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -330,4 +389,21 @@ public class Menu extends JFrame {
             }
         });
     }
+}
+
+class BackgroundPanel extends JPanel
+{
+	Image im;
+	public BackgroundPanel(Image im)
+	{
+		this.im=im;
+		this.setOpaque(true);
+	}
+	//Draw the back ground.
+	public void paintComponent(Graphics g)
+	{
+		super.paintComponents(g);
+		g.drawImage(im,0,0,this.getWidth(),this.getHeight(),this);
+		
+	}
 }
