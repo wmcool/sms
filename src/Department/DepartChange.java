@@ -93,7 +93,7 @@ public class DepartChange extends JFrame {
         jComboBox1.addItem("璇烽�夋嫨瀛﹂櫌");
 
         //灏嗗闄㈢殑淇℃伅灞曠ず鍒板閫夋涓�
-        ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select * from school");
+        ResultSet rs = DBConnection.getDBConnection().query("select * from school");
         while (rs.next()) {
             String school = rs.getString("schoolName");
             jComboBox1.addItem(school);
@@ -114,7 +114,7 @@ public class DepartChange extends JFrame {
             String departName = jTextField2.getText().trim();
 
             boolean overlap = false;
-            ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select deptId, departName from department;");
+            ResultSet rs = DBConnection.getDBConnection().query("select deptId, departName from department;");
             try {
                 while (rs.next()) {
                     if (departId.equals(rs.getString("deptId").trim()) ||
@@ -128,7 +128,7 @@ public class DepartChange extends JFrame {
             if (overlap) {
                 jOptionPane1.showMessageDialog(this, "涓撲笟缂栧彿鎴栧悕绉板凡缁忓瓨鍦紒", "鎻愮ず", JOptionPane.INFORMATION_MESSAGE, null);
             } else {
-                DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("update department set deptId='" + departId + "',schoolName='" + jComboBox1.getSelectedItem().toString() +
+                DBConnection.getDBConnection().Update("update department set deptId='" + departId + "',schoolName='" + jComboBox1.getSelectedItem().toString() +
                         "',departName='" + departName + "' where deptId='" + deptId + "';");
                 jOptionPane1.showMessageDialog(this, "鎭枩鎮ㄤ笓涓氫俊鎭綍鍏ユ垚鍔燂紒", "鎻愮ず", JOptionPane.INFORMATION_MESSAGE, null);
             }

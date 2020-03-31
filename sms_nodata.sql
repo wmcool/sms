@@ -141,3 +141,16 @@ on update cascade;
 alter table `student` add constraint `student_class` foreign key (stuClass) references class (classId)
 on delete cascade
 on update cascade;
+
+create view student_course as select * from student natural join sc;
+
+DROP TABLE IF EXISTS `user`;
+
+CREATE TABLE `user` (
+  `userName` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `authority` varchar(100) NOT NULL,
+  PRIMARY KEY (`userName`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `user` VALUES ("admin","admin","admin");

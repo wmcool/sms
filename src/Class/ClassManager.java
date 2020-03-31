@@ -3,6 +3,7 @@ package Class;
 import com.borland.jbcl.layout.XYConstraints;
 import com.borland.jbcl.layout.XYLayout;
 import db.DBConnection;
+import Main.MainFrame;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -40,7 +41,6 @@ public class ClassManager extends JFrame {
     JButton jButton4 = new JButton();
     JButton jButton5 = new JButton();
     JButton jButton6 = new JButton();
-    DBConnection conn = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString);
     Object[][] arrData = {};
     String[] arrField = {"班级编号", "学院名称", "专业名称"};
     JOptionPane jOptionPane1 = new JOptionPane();
@@ -150,7 +150,7 @@ public class ClassManager extends JFrame {
         jComboBox1.addItem("请选择学院");
         jComboBox2.addItem("请选择学院");
 
-        ResultSet rs = conn.query("select * from school;");
+        ResultSet rs = DBConnection.getDBConnection().query("select * from school;");
         while (rs.next()) {
             String school = rs.getString("schoolName");
             jComboBox1.addItem(school);
@@ -165,6 +165,10 @@ public class ClassManager extends JFrame {
         jButton2.setEnabled(false);
         jButton3.setEnabled(false);
 
+        if(MainFrame.user.equals("student")){
+            jButton4.setVisible(false);
+            jButton5.setVisible(false);
+        }
         sql = "select * from class;";
         UpdateRecord();
     }
@@ -176,7 +180,7 @@ public class ClassManager extends JFrame {
         jTable1 = new JTable(model);
         jScrollPane1.getViewport().add(jTable1, null);
         try {
-            ResultSet rs3 = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query(sql);
+            ResultSet rs3 = DBConnection.getDBConnection().query(sql);
             while (rs3.next()) {
                 vec = new Vector();
                 vec.add(String.valueOf(rs3.getInt("classId")));
@@ -233,7 +237,7 @@ public class ClassManager extends JFrame {
         jComboBox3.setEnabled(true);
         jComboBox3.removeAllItems();
         jComboBox3.addItem("请选择专业");
-        ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select * from department where schoolName='" + jComboBox2.getSelectedItem().toString() + "';");
+        ResultSet rs = DBConnection.getDBConnection().query("select * from department where schoolName='" + jComboBox2.getSelectedItem().toString() + "';");
         try {
             while(rs.next()){
                 String depart = rs.getString("departName");
@@ -281,7 +285,7 @@ public class ClassManager extends JFrame {
             jOptionPane1.showMessageDialog(this, "请选择要删除的班级！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
         }
         String now = model.getValueAt(row, 0).toString().trim();
-        DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("delete from class where classId=" + Integer.valueOf(now) + ";");
+        DBConnection.getDBConnection().Update("delete from class where classId=" + Integer.valueOf(now) + ";");
         UpdateRecord();
     }
 

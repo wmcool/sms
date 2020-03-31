@@ -3,6 +3,7 @@ package Course;
 import com.borland.jbcl.layout.XYConstraints;
 import com.borland.jbcl.layout.XYLayout;
 import db.DBConnection;
+import Main.MainFrame;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -40,7 +41,6 @@ public class CourseManager extends JFrame {
     JButton jButton4 = new JButton();
     JButton jButton5 = new JButton();
     JButton jButton6 = new JButton();
-    DBConnection conn = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString);
     Object[][] arrData = {};
     String[] arrField = {"课程编号", "课程名称", "学分"};
     JOptionPane jOptionPane1 = new JOptionPane();
@@ -60,7 +60,6 @@ public class CourseManager extends JFrame {
             @Override
             public void run() {
                 CourseManager window = new CourseManager();
-                window.setSize(600, 600);
                 window.setVisible(true);
             }
         });
@@ -68,6 +67,7 @@ public class CourseManager extends JFrame {
 
     public void init() throws SQLException {
         getContentPane().setLayout(xyLayout1);
+        setSize(600, 600);
         xyLayout1.setWidth(530);
         xyLayout1.setHeight(540);
         jLabel1.setFont(new java.awt.Font("黑体", Font.PLAIN, 20));
@@ -164,7 +164,7 @@ public class CourseManager extends JFrame {
         this.getContentPane().add(jButton6, new XYConstraints(340, 480, 90, 35));
         jComboBox1.addItem("请选择学院");
 
-        ResultSet rs = conn.query("select * from course;");
+        ResultSet rs = DBConnection.getDBConnection().query("select * from course;");
         while (rs.next()) {
             String courseName = rs.getString("courseName");
             jComboBox1.addItem(courseName);
@@ -174,6 +174,11 @@ public class CourseManager extends JFrame {
         jTextField1.setEditable(false);
         jButton1.setEnabled(false);
         jButton2.setEnabled(false);
+
+        if(MainFrame.user.equals("student")){
+            jButton4.setVisible(false);
+            jButton5.setVisible(false);
+        }
 
         sql = "select * from course;";
         updateRecord();
@@ -186,7 +191,7 @@ public class CourseManager extends JFrame {
         jTable1 = new JTable(model);
         jScrollPane1.getViewport().add(jTable1, null);
         try {
-            ResultSet rs3 = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query(sql);
+            ResultSet rs3 = DBConnection.getDBConnection().query(sql);
             while (rs3.next()) {
                 vec = new Vector();
                 vec.add(String.valueOf(rs3.getInt("courseId")));
@@ -229,7 +234,7 @@ public class CourseManager extends JFrame {
             jOptionPane1.showMessageDialog(this, "请选择要删除的课程！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
         }
         String now = model.getValueAt(row, 0).toString().trim();
-        DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("delete from course where courseId=" + Integer.valueOf(now) + ";");
+        DBConnection.getDBConnection().Update("delete from course where courseId=" + Integer.valueOf(now) + ";");
         updateRecord();
     }
 

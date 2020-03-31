@@ -10,18 +10,15 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -29,11 +26,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
-import com.borland.jbcl.layout.XYLayout;
-import com.mysql.cj.xdevapi.Result;
-
-import Class.ClassManager;
 import db.DBConnection;
+import Main.MainFrame;
 
 public class DepartmentManager extends JFrame {
 	JPanel contentPane;
@@ -47,7 +41,7 @@ public class DepartmentManager extends JFrame {
 	JComboBox jComboBox1 = new JComboBox();
 	JComboBox jComboBox2 = new JComboBox();
 	JButton button1 = new JButton();
-	DBConnection conn = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString);
+	DBConnection conn = DBConnection.getDBConnection();
 	JPanel jPanel2 = new JPanel();
 	Border etchedBorder2 = BorderFactory.createEtchedBorder();
 	JScrollPane jScrollPane1 = new JScrollPane();
@@ -124,12 +118,12 @@ public class DepartmentManager extends JFrame {
         jPanel1.add(button1);
         jComboBox1.addItem("");
         jComboBox2.addItem("");
-        ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select * from department");
+        ResultSet rs = DBConnection.getDBConnection().query("select * from department");
         while (rs.next()) {
         	String departName = rs.getString("departName");
         	jComboBox2.addItem(departName);
         }
-        rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select * from school");
+        rs = DBConnection.getDBConnection().query("select * from school");
         while (rs.next()) {
         	String schoolName = rs.getString("schoolName");
         	jComboBox1.addItem(schoolName);
@@ -170,6 +164,11 @@ public class DepartmentManager extends JFrame {
         contentPane.add(button2);
         contentPane.add(button3);
         contentPane.add(button4);
+
+		if(MainFrame.user.equals("student")){
+			button2.setVisible(false);
+			button3.setVisible(false);
+		}
 	}
 	
 	class DepartmentManager_jButton1_actionAdapter implements ActionListener {
@@ -249,7 +248,7 @@ public class DepartmentManager extends JFrame {
 	            jOptionPane1.showMessageDialog(adaptee, "请选择要删除的专业！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
 	        }
 	        String now = model.getValueAt(row, 0).toString().trim();
-	        DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("delete from department where deptId='" + now + "'");
+	        DBConnection.getDBConnection().Update("delete from department where deptId='" + now + "'");
 	        jOptionPane1.showMessageDialog(adaptee, "恭喜您删除成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
 		}	
 	}

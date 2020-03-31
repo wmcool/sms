@@ -118,7 +118,7 @@ public class SCAddFrame extends JFrame {
 				jOptionPane1.showMessageDialog(adaptee, "课程名不能为空!", "提示", jOptionPane1.INFORMATION_MESSAGE, null);
 			} else {
 				boolean exit = false;
-				ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select * from student");
+				ResultSet rs = DBConnection.getDBConnection().query("select * from student");
 				try {
 	                while (rs.next()) {
 	                    if (jTextField1.getText().trim().equals(rs.getString("stuNumber").trim())) {
@@ -133,7 +133,7 @@ public class SCAddFrame extends JFrame {
 					return;
 				}
 				boolean overlap = false;
-	            rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select courceName from sc where stuNumber='"+jTextField1.getText().trim()+"';");
+	            rs = DBConnection.getDBConnection().query("select courceName from sc where stuNumber='"+jTextField1.getText().trim()+"';");
 	            try {
 	                while (rs.next()) {
 	                    if (jTextField2.getText().trim().equals(rs.getString("courceName").trim())) {
@@ -147,7 +147,7 @@ public class SCAddFrame extends JFrame {
                     jOptionPane1.showMessageDialog(adaptee, "该学生该课程成绩已经存在！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
                 } else {
                 	
-					DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("insert into sc values ('" + jTextField1.getText().trim() + "','" + jTextField2.getText().trim() + "','" + jTextField3.getText().trim() + "')");        	
+					DBConnection.getDBConnection().Update("insert into sc values ('" + jTextField1.getText().trim() + "','" + jTextField2.getText().trim() + "','" + jTextField3.getText().trim() + "')");
                     jOptionPane1.showMessageDialog(adaptee, "恭喜您成绩录入成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
                 }
 			}

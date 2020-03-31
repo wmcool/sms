@@ -53,7 +53,7 @@ public class DepartmentAddFrame extends JFrame{
         setTitle("专业录入");
         
         jLabel1.setFont(new java.awt.Font("Dialog", Font.BOLD, 20));
-        jLabel1.setText("专  业 信 息 录 入");
+        jLabel1.setText("专 业 信 息 录 入");
         jLabel1.setBounds(new Rectangle(136, 20, 212, 25));
 
         jLabel2.setFont(new java.awt.Font("Dialog", Font.PLAIN, 18));
@@ -80,7 +80,7 @@ public class DepartmentAddFrame extends JFrame{
         jComboBox1.setEditable(true);
         jComboBox1.setBounds(new Rectangle(180, 180, 180, 25));
         jComboBox1.addActionListener(new DepartmentAddFrame_jComboBox1_actionAdapter(this));
-        ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select * from department");
+        ResultSet rs = DBConnection.getDBConnection().query("select * from department");
         jComboBox1.addItem("请选择学院");
         while (rs.next()) {
         	String schoolName = rs.getString("schoolName");
@@ -156,7 +156,7 @@ public class DepartmentAddFrame extends JFrame{
 			jOptionPane1.showMessageDialog(this, "请选择学院!", "提示", jOptionPane1.INFORMATION_MESSAGE, null);
 		} else {
 			boolean overlap = false;
-            ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select deptId from department");
+            ResultSet rs = DBConnection.getDBConnection().query("select deptId from department");
             try {
                 while (rs.next()) {
                     if (jTextField1.getText().trim().equals(rs.getString("deptId").trim())) {
@@ -169,23 +169,8 @@ public class DepartmentAddFrame extends JFrame{
             if (overlap) {
                 jOptionPane1.showMessageDialog(this, "该系号已经存在！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
             } else {
-            	overlap = false;
-            	rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select departName from department where schoolName='" + school + "'");
-                try {
-                    while (rs.next()) {
-                        if (jTextField1.getText().trim().equals(rs.getString("departName").trim())) {
-                            overlap = true;
-                        }
-                    }
-                } catch (SQLException ec) {
-                    ec.printStackTrace();
-                }
-                if (overlap) {
-                    jOptionPane1.showMessageDialog(this, "该系名已经存在！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
-                } else {
-                	DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("insert into department values ('" + jTextField1.getText().trim() + "','" + school + "','" + jTextField2.getText().trim() + "')");
-                    jOptionPane1.showMessageDialog(this, "恭喜您专业信息录入成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
-                }
+                DBConnection.getDBConnection().Update("insert into department values ('" + jTextField1.getText().trim() + "','" + school + "','" + jTextField2.getText().trim() + "')");
+                jOptionPane1.showMessageDialog(this, "恭喜您专业信息录入成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
             }
 		}
     }

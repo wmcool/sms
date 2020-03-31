@@ -106,7 +106,7 @@ public class CourseChange extends JFrame {
         } else {
             try {
                 boolean overlap = false;
-                ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select courseId from course;");
+                ResultSet rs = DBConnection.getDBConnection().query("select courseId from course;");
                 while (rs.next()) {
                     if (jTextField1.getText().trim().equals(rs.getString("courseId").trim())) {
                         overlap = true;
@@ -115,7 +115,7 @@ public class CourseChange extends JFrame {
                 if (overlap) {
                     jOptionPane1.showMessageDialog(this, "课程代码已经存在！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
                 } else {
-                    DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("update course set courseId='" + jTextField1.getText().trim() + "',courseName='" + jTextField2.getText().trim()
+                    DBConnection.getDBConnection().Update("update course set courseId='" + jTextField1.getText().trim() + "',courseName='" + jTextField2.getText().trim()
                             + "',credit='" + Float.valueOf(jTextField3.getText().trim()) + "'where courseId='" + courseId + "';");
                     jOptionPane1.showMessageDialog(this, "课程信息修改成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
                 }

@@ -121,7 +121,7 @@ public class StudentChange extends JFrame {
 
         jComboBox1.addItem("请选择学院");
         //将学院的信息展示到复选框中
-        ResultSet rs1 = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select * from school;");
+        ResultSet rs1 = DBConnection.getDBConnection().query("select * from school;");
         while (rs1.next()) {
             String school = rs1.getString("schoolName");
             jComboBox1.addItem(school);
@@ -134,7 +134,7 @@ public class StudentChange extends JFrame {
     public void fillDepart() {
         jComboBox2.removeAllItems();
         jComboBox2.addItem("请选择专业");
-        ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select *  from department where schoolName='" +
+        ResultSet rs = DBConnection.getDBConnection().query("select *  from department where schoolName='" +
                 String.valueOf(jComboBox1.getSelectedItem()) + "';");
         try {
             while (rs.next()) {
@@ -154,7 +154,7 @@ public class StudentChange extends JFrame {
     public void jComboBox2_actionPerformed(ActionEvent e) {
         jComboBox3.removeAllItems();
         jComboBox3.addItem("请选择班级");
-        ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select *  from class where schoolName='" +
+        ResultSet rs = DBConnection.getDBConnection().query("select *  from class where schoolName='" +
                 String.valueOf(jComboBox1.getSelectedItem()) + "' and departName='" + String.valueOf(jComboBox2.getSelectedItem()) + "';");
         try {
             while (rs.next()) {
@@ -189,7 +189,7 @@ public class StudentChange extends JFrame {
             String stuId = jTextField1.getText().trim();
 
             boolean overlap = false;
-            ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select stuNumber from student;");
+            ResultSet rs = DBConnection.getDBConnection().query("select stuNumber from student;");
             try {
                 while (rs.next()) {
                     if (jTextField1.getText().trim().equals(rs.getString("stuNumber").trim())) {
@@ -202,7 +202,7 @@ public class StudentChange extends JFrame {
             if (overlap) {
                 jOptionPane1.showMessageDialog(this, "该学号已经存在！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
             } else {
-                DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("update student set stuNumber='" + jTextField1.getText().trim() + "',stuName='" + jTextField2.getText().trim() +
+                DBConnection.getDBConnection().Update("update student set stuNumber='" + jTextField1.getText().trim() + "',stuName='" + jTextField2.getText().trim() +
                         "',stuSchool='" + jComboBox1.getSelectedItem().toString() + "',stuDept='" + jComboBox2.getSelectedItem().toString() + "',stuClass='" + jComboBox3.getSelectedItem().toString() +
                         "' where stuNumber='" + stuNumber + "';");
                 jOptionPane1.showMessageDialog(this, "恭喜您学生信息修改成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);

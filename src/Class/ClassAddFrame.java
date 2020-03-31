@@ -98,7 +98,7 @@ public class ClassAddFrame extends JFrame {
 
         jComboBox1.addItem("请选择学院");
         //将学院的信息展示到复选框中
-        ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select * from school;");
+        ResultSet rs = DBConnection.getDBConnection().query("select * from school;");
         while (rs.next()) {
             String school = rs.getString("schoolName");
             jComboBox1.addItem(school);
@@ -110,7 +110,7 @@ public class ClassAddFrame extends JFrame {
     public void fillDepart() {
         jComboBox2.removeAllItems();
         jComboBox2.addItem("请选择专业");
-        ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select *  from department where schoolName='" +
+        ResultSet rs = DBConnection.getDBConnection().query("select *  from department where schoolName='" +
                 String.valueOf(jComboBox1.getSelectedItem()) + "'");
         try {
             while (rs.next()) {
@@ -141,7 +141,7 @@ public class ClassAddFrame extends JFrame {
             department = jComboBox2.getSelectedItem().toString();
 
             boolean overlap = false;
-            ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select classId from class;");
+            ResultSet rs = DBConnection.getDBConnection().query("select classId from class;");
             try {
                 while (rs.next()) {
                     if (jTextField1.getText().trim().equals(rs.getString("classId").trim())) {
@@ -154,7 +154,7 @@ public class ClassAddFrame extends JFrame {
             if (overlap) {
                 jOptionPane1.showMessageDialog(this, "该班号已经存在！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
             } else {
-                DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("insert into class values ('" + jTextField1.getText().trim() + "','" + school + "','" + department + "')");
+                DBConnection.getDBConnection().Update("insert into class values ('" + jTextField1.getText().trim() + "','" + school + "','" + department + "')");
                 jOptionPane1.showMessageDialog(this, "恭喜您班级信息录入成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
             }
 

@@ -86,7 +86,7 @@ public class SchoolAddFrame extends JFrame {
     		 jOptionPane1.showMessageDialog(this, "添加学院不能为空!", "提示", jOptionPane1.INFORMATION_MESSAGE, null);
     	 }else {
     		 boolean overlap = false;
-             ResultSet rs = DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).query("select schoolName from school");
+             ResultSet rs = DBConnection.getDBConnection().query("select schoolName from school");
              try {
                  while (rs.next()) {
                      if (jTextField1.getText().trim().equals(rs.getString("schoolName").trim())) {
@@ -99,7 +99,7 @@ public class SchoolAddFrame extends JFrame {
              if (overlap) {
                  jOptionPane1.showMessageDialog(this, "该学院已经存在！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
              } else {
-                 DBConnection.getDBConnection(DBConnection.userString, DBConnection.passwordString).Update("insert into school values ('"+jTextField1.getText().trim()+"')");
+                 DBConnection.getDBConnection().Update("insert into school values ('"+jTextField1.getText().trim()+"')");
                  jOptionPane1.showMessageDialog(this, "恭喜您学院信息录入成功！", "提示", JOptionPane.INFORMATION_MESSAGE, null);
              }
     	 }
