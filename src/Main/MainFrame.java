@@ -39,6 +39,8 @@ public class MainFrame extends JFrame {
 	JTextField jTextField2 = new JTextField();
 	JTextField jTextField3 = new JTextField();
 	JOptionPane jOptionPane1 = new JOptionPane();
+	JLabel jLabel2 = new JLabel();
+	JLabel jLabel3 = new JLabel();
 	
 	public MainFrame() {
         try {
@@ -53,10 +55,10 @@ public class MainFrame extends JFrame {
 		jPanel = (JPanel)getContentPane();
 		jPanel.setLayout(null);
 		setTitle("教学管理系统");
-		JPanel bgp=new BackgroundPanel((new ImageIcon("res/2.jpg")).getImage());
+		JPanel bgp=new BackgroundPanel((new ImageIcon("src/Main/2.jpg")).getImage());
 		bgp.setBounds(0,0,500,333);
 
-		jPanel.add(bgp);
+//		jPanel.add(bgp);
 //		jPanel.setOpaque(true);
 
 //		jPanel.setBounds(0,0,imageIcon.getIconWidth(),imageIcon.getIconHeight());
@@ -64,10 +66,16 @@ public class MainFrame extends JFrame {
 		jTextField1.setBounds(200,80,120,30);
 		jPanel.add(jTextField1);
 		
-		jPasswordField.setBounds(200, 190,120,30);
+		jPasswordField.setBounds(200, 150,120,30);
 		jPanel.add(jPasswordField);
 
+		jLabel2.setText("用户名：");
+		jLabel2.setBounds(80,80,80,30);
+		jPanel.add(jLabel2);
 		
+		jLabel3.setText("密码：");
+		jLabel3.setBounds(80,150,80,30);
+		jPanel.add(jLabel3);
 //		getLayeredPane().setLayout(null);
 //		getLayeredPane().add(jLabel1, new Integer(Integer.MIN_VALUE));
 //		setSize(imageIcon.getIconWidth(),imageIcon.getIconHeight());
@@ -338,9 +346,11 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (jTextField1.getText().trim().length() == 0) {
 					jOptionPane1.showMessageDialog(null, "用户名不能为空!", "提示", jOptionPane1.INFORMATION_MESSAGE, null);
-				} else if (jPasswordField.getPassword().length == 0) {
+				} 
+				else if (jPasswordField.getPassword().length == 0) {
 					jOptionPane1.showMessageDialog(null, "密码不能为空!", "提示", jOptionPane1.INFORMATION_MESSAGE, null);
-				} else {
+				} 
+				else {
 					String password = new String(jPasswordField.getPassword());
 					ResultSet rs = DBConnection.getDBConnection().query("select authority from user where userName='" + jTextField1.getText() + "' and password='" +
 							password + "';");
